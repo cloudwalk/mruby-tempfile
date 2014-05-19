@@ -12,7 +12,22 @@
 
 //#include <stdlib.h>
 #include <sys/types.h>
-#include <unistd.h>
+#include <sys/stat.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+  #include <windows.h>
+  #include <winsock.h>
+  #include <io.h>
+  #include <process.h>
+/* Values for the second argument to access.
+   These may be OR'd together.  */
+  #define R_OK    4       /* Test for read permission.  */
+  #define W_OK    2       /* Test for write permission.  */
+  #define F_OK    0       /* Test for existence.  */
+#else
+	#include <unistd.h>
+#endif
+
 
 static void mrb_tempfile_path_free(mrb_state *, void *);
 
