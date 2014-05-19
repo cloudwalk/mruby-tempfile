@@ -56,7 +56,14 @@ mrb_tempfile_getpid(mrb_state *mrb, mrb_value self)
 {
   mrb_value value;
 
+#if defined(_WIN32) || defined(_WIN64)
+  value = mrb_fixnum_value(_getpid());
+#endif
+#if defined(PAX)
+  value = mrb_nil_value();
+#else
   value = mrb_fixnum_value(getpid());
+#endif
 
   return value;
 }
